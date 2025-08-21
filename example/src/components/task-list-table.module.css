@@ -1,0 +1,19 @@
+.taskListTableRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+}
+
+.taskListTableRow button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}

@@ -83,6 +83,7 @@ export interface DisplayOption {
    */
   locale?: string;
   rtl?: boolean;
+  scrollToTaskOnSelect?: boolean;
 }
 
 export interface StylingOption {
@@ -136,7 +137,7 @@ export interface StylingOption {
     /**
      * Sets selected task by id
      */
-    setSelectedTask: (taskId: string) => void;
+    setSelectedTask: (taskId: string, source: 'list' | 'gantt') => void;
     onExpanderClick: (task: Task) => void;
   }>;
 }

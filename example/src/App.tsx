@@ -3,6 +3,7 @@ import { Task, ViewMode, Gantt } from "gantt-task-react";
 import { ViewSwitcher } from "./components/view-switcher";
 import { getStartEndDateForProject, initTasks } from "./helper";
 import "gantt-task-react/dist/index.css";
+import { CustomTaskListTable } from "./components/custom-task-list-table";
 
 // Init
 const App = () => {
@@ -88,6 +89,7 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
         onHoverPathColor={"blue"}
+        TaskListTable={CustomTaskListTable}
       />
       <h3>Gantt With Limited Height</h3>
       <Gantt
@@ -103,6 +105,8 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         ganttHeight={300}
         columnWidth={columnWidth}
+        TaskListTable={CustomTaskListTable}
+        scrollToTaskOnSelect={false}
       />
     </div>
   );

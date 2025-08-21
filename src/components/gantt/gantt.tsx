@@ -66,6 +66,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onSelect,
   onExpanderClick,
   onHoverPathColor,
+  scrollToTaskOnSelect = true,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
@@ -368,7 +369,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   /**
    * Task select event
    */
-  const handleSelectedTask = (taskId: string) => {
+  const _handleSelectedTask = (taskId: string) => {
     const newSelectedTask = barTasks.find(t => t.id === taskId);
     const oldSelectedTask = barTasks.find(
       t => !!selectedTask && t.id === selectedTask.id
@@ -382,6 +383,21 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
     }
     setSelectedTask(newSelectedTask);
+  };
+
+  const handleSelect = (taskId: string, source: 'list' | 'gantt' = 'gantt') => {
+    _handleSelectedTask(taskId);
+    if (scrollToTaskOnSelect && source === 'list') {
+      const newSelectedTask = barTasks.find(t => t.id === taskId);
+      if (newSelectedTask) {
+        const newScrollX = newSelectedTask.x1 - svgContainerWidth / 2;
+        if (newScrollX < 0) {
+          setScrollX(0);
+        } else {
+          setScrollX(newScrollX);
+        }
+      }
+    }
   };
   const handleExpanderClick = (task: Task) => {
     if (onExpanderClick && task.hideChildren !== undefined) {
@@ -424,7 +440,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     rtl,
     setGanttEvent,
     setFailedTask,
-    setSelectedTask: handleSelectedTask,
+    setSelectedTask: handleSelect,
     onDateChange,
     onProgressChange,
     onDoubleClick,
@@ -446,7 +462,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     horizontalContainerClass: styles.horizontalContainer,
     selectedTask,
     taskListRef,
-    setSelectedTask: handleSelectedTask,
+    setSelectedTask: handleSelect,
     onExpanderClick: handleExpanderClick,
     TaskListHeader,
     TaskListTable,

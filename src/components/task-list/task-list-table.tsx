@@ -29,7 +29,7 @@ export const TaskListTableDefault: React.FC<{
   locale: string;
   tasks: Task[];
   selectedTaskId: string;
-  setSelectedTask: (taskId: string) => void;
+  setSelectedTask: (taskId: string, source: 'list' | 'gantt') => void;
   onExpanderClick: (task: Task) => void;
 }> = ({
   rowHeight,

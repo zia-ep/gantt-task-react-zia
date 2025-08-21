@@ -30,7 +30,7 @@ export type TaskGanttContentProps = {
   rtl: boolean;
   setGanttEvent: (value: GanttEvent) => void;
   setFailedTask: (value: BarTask | null) => void;
-  setSelectedTask: (taskId: string) => void;
+  setSelectedTask: (taskId: string, source: 'list' | 'gantt') => void;
   onHoverPathColor?: string;
 } & EventOption;
 
@@ -205,7 +205,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   ) => {
     if (!event) {
       if (action === "select") {
-        setSelectedTask(task.id);
+        setSelectedTask(task.id, 'gantt');
       }
     }
     // Keyboard events
