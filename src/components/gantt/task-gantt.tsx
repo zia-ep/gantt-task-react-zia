@@ -54,11 +54,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
       <div
         ref={horizontalContainerRef}
         className={styles.horizontalContainer}
-        style={
-          ganttHeight
-            ? { height: ganttHeight, width: gridProps.svgWidth }
-            : { width: gridProps.svgWidth }
-        }
+        style={ganttHeight ? { height: ganttHeight, width: gridProps.svgWidth } : { width: gridProps.svgWidth }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +64,7 @@ export const TaskGantt: React.FC<TaskGanttProps> = ({
           ref={ganttSVGRef}
         >
           <Grid {...gridProps} />
-          <TaskGanttContent {...newBarProps} />
+          <TaskGanttContent {...newBarProps} onHoverPathColor={barProps.onHoverPathColor} />
         </svg>
       </div>
     </div>

@@ -10,6 +10,7 @@ import {
   GanttContentMoveAction,
   GanttEvent,
 } from "../../types/gantt-task-actions";
+import styles from './gantt.module.css';
 
 export type TaskGanttContentProps = {
   tasks: BarTask[];
@@ -30,6 +31,7 @@ export type TaskGanttContentProps = {
   setGanttEvent: (value: GanttEvent) => void;
   setFailedTask: (value: BarTask | null) => void;
   setSelectedTask: (taskId: string) => void;
+  onHoverPathColor?: string;
 } & EventOption;
 
 export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
@@ -55,6 +57,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   onDoubleClick,
   onClick,
   onDelete,
+  onHoverPathColor,
 }) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
@@ -274,6 +277,9 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
                 taskHeight={taskHeight}
                 arrowIndent={arrowIndent}
                 rtl={rtl}
+                id={`Arrow from ${task.id} to ${tasks[child.index].id}`}
+                className={styles.arrow}
+                onHoverPathColor={onHoverPathColor || arrowColor}
               />
             );
           });

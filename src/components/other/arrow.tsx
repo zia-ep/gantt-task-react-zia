@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BarTask } from "../../types/bar-task";
 
 type ArrowProps = {
@@ -8,6 +8,9 @@ type ArrowProps = {
   taskHeight: number;
   arrowIndent: number;
   rtl: boolean;
+  id?: string; // Optional ID for the arrow
+  className?: string;
+  onHoverPathColor?: string;
 };
 export const Arrow: React.FC<ArrowProps> = ({
   taskFrom,
@@ -16,9 +19,14 @@ export const Arrow: React.FC<ArrowProps> = ({
   taskHeight,
   arrowIndent,
   rtl,
+  id,
+  className,
+  onHoverPathColor,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
   let path: string;
   let trianglePoints: string;
+
   if (rtl) {
     [path, trianglePoints] = drownPathAndTriangleRTL(
       taskFrom,
@@ -38,9 +46,23 @@ export const Arrow: React.FC<ArrowProps> = ({
   }
 
   return (
-    <g className="arrow">
-      <path strokeWidth="1.5" d={path} fill="none" />
-      <polygon points={trianglePoints} />
+    <g 
+      className={className} 
+      id={id || `Arrow from ${taskFrom.id} to ${taskTo.id}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <path 
+        strokeWidth="1.5" 
+        d={path} 
+        fill="none" 
+        stroke={isHovered ? onHoverPathColor : undefined}
+      />
+      <polygon 
+        points={trianglePoints} 
+        fill={isHovered ? onHoverPathColor : undefined}
+        stroke={isHovered ? onHoverPathColor : undefined}
+      />
     </g>
   );
 };

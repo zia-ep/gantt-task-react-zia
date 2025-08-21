@@ -19,3 +19,11 @@
   outline: none;
   position: relative;
 }
+
+.arrow:hover path {
+  stroke-width: 5;
+}
+
+.arrow {
+  cursor: pointer;
+}
