@@ -268,6 +268,9 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
       <g className="arrows" fill={arrowColor} stroke={arrowColor}>
         {tasks.map(task => {
           return task.barChildren.map(child => {
+            const isHighlighted = ganttEvent.action === 'mouseenter' && 
+                                  (ganttEvent.changedTask?.id === task.id || 
+                                  ganttEvent.changedTask?.id === tasks[child.index].id);
             return (
               <Arrow
                 key={`Arrow from ${task.id} to ${tasks[child.index].id}`}
@@ -279,6 +282,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
                 rtl={rtl}
                 id={`Arrow from ${task.id} to ${tasks[child.index].id}`}
                 className={styles.arrow}
+                isHighlighted={isHighlighted}
                 onHoverPathColor={onHoverPathColor || arrowColor}
               />
             );

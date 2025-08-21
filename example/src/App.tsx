@@ -87,7 +87,7 @@ const App = () => {
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
-        onHoverPathColor={"red"}
+        onHoverPathColor={"blue"}
       />
       <h3>Gantt With Limited Height</h3>
       <Gantt

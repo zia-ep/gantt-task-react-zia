@@ -11,6 +11,7 @@ type ArrowProps = {
   id?: string; // Optional ID for the arrow
   className?: string;
   onHoverPathColor?: string;
+  isHighlighted?: boolean;
 };
 export const Arrow: React.FC<ArrowProps> = ({
   taskFrom,
@@ -22,6 +23,7 @@ export const Arrow: React.FC<ArrowProps> = ({
   id,
   className,
   onHoverPathColor,
+  isHighlighted,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   let path: string;
@@ -45,6 +47,8 @@ export const Arrow: React.FC<ArrowProps> = ({
     );
   }
 
+  const strokeColor = isHighlighted || isHovered ? onHoverPathColor : undefined;
+
   return (
     <g 
       className={className} 
@@ -53,15 +57,15 @@ export const Arrow: React.FC<ArrowProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <path 
-        strokeWidth="1.5" 
+        strokeWidth={(isHighlighted || isHovered) ? 4.5 : 1.5} 
         d={path} 
         fill="none" 
-        stroke={isHovered ? onHoverPathColor : undefined}
+        stroke={strokeColor}
       />
       <polygon 
         points={trianglePoints} 
-        fill={isHovered ? onHoverPathColor : undefined}
-        stroke={isHovered ? onHoverPathColor : undefined}
+        fill={strokeColor}
+        stroke={strokeColor}
       />
     </g>
   );
