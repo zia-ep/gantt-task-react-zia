@@ -90,6 +90,8 @@ const App = () => {
         columnWidth={columnWidth}
         onHoverPathColor={"blue"}
         TaskListTable={CustomTaskListTable}
+        barBorderSelectedColor="#FF0000"
+        // barBorderColor="#FF0000"
       />
       <h3>Gantt With Limited Height</h3>
       <Gantt

@@ -32,6 +32,7 @@ export const Bar: React.FC<TaskItemProps> = ({
         barCornerRadius={task.barCornerRadius}
         styles={task.styles}
         isSelected={isSelected}
+        barBorderWidth={task.barBorderWidth}
         onMouseDown={e => {
           isDateChangeable && onEventStart("move", task, e);
         }}

@@ -32,6 +32,9 @@ export type TaskGanttContentProps = {
   setFailedTask: (value: BarTask | null) => void;
   setSelectedTask: (taskId: string, source: 'list' | 'gantt') => void;
   onHoverPathColor?: string;
+  barBorderColor: string;
+  barBorderWidth: number;
+  barBorderSelectedColor: string;
 } & EventOption;
 
 export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
@@ -58,6 +61,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   onClick,
   onDelete,
   onHoverPathColor,
+  barBorderWidth,
 }) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
@@ -303,6 +307,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               key={task.id}
               isSelected={!!selectedTask && task.id === selectedTask.id}
               rtl={rtl}
+              barBorderWidth={barBorderWidth}
             />
           );
         })}

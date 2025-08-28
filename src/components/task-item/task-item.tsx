@@ -21,6 +21,7 @@ export type TaskItemProps = {
     selectedTask: BarTask,
     event?: React.MouseEvent | React.KeyboardEvent
   ) => any;
+  barBorderWidth: number;
 };
 
 export const TaskItem: React.FC<TaskItemProps> = memo(props => {
