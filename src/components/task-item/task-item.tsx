@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, memo } from "react";
 import { BarTask } from "../../types/bar-task";
 import { GanttContentMoveAction } from "../../types/gantt-task-actions";
 import { Bar } from "./bar/bar";
@@ -23,7 +23,7 @@ export type TaskItemProps = {
   ) => any;
 };
 
-export const TaskItem: React.FC<TaskItemProps> = props => {
+export const TaskItem: React.FC<TaskItemProps> = memo(props => {
   const {
     task,
     arrowIndent,
@@ -54,7 +54,7 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
         setTaskItem(<Bar {...props} />);
         break;
     }
-  }, [task, isSelected]);
+  }, [task, isSelected, props]);
 
   useEffect(() => {
     if (textRef.current) {
@@ -122,4 +122,4 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
       </text>
     </g>
   );
-};
+});

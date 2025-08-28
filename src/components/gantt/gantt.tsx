@@ -4,6 +4,7 @@ import React, {
   useRef,
   useEffect,
   useMemo,
+  useCallback,
 } from "react";
 import { ViewMode, GanttProps, Task } from "../../types/public-types";
 import { GridProps } from "../grid/grid";
@@ -369,7 +370,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   /**
    * Task select event
    */
-  const _handleSelectedTask = (taskId: string) => {
+  const _handleSelectedTask = useCallback((taskId: string) => {
     const newSelectedTask = barTasks.find(t => t.id === taskId);
     const oldSelectedTask = barTasks.find(
       t => !!selectedTask && t.id === selectedTask.id
@@ -383,9 +384,9 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
     }
     setSelectedTask(newSelectedTask);
-  };
+  }, [barTasks, onSelect, selectedTask]);
 
-  const handleSelect = (taskId: string, source: 'list' | 'gantt' = 'gantt') => {
+  const handleSelect = useCallback((taskId: string, source: 'list' | 'gantt' = 'gantt') => {
     _handleSelectedTask(taskId);
     if (scrollToTaskOnSelect && source === 'list') {
       const newSelectedTask = barTasks.find(t => t.id === taskId);
@@ -398,12 +399,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         }
       }
     }
-  };
-  const handleExpanderClick = (task: Task) => {
+  }, [_handleSelectedTask, scrollToTaskOnSelect, barTasks, svgContainerWidth]);
+
+  const handleExpanderClick = useCallback((task: Task) => {
     if (onExpanderClick && task.hideChildren !== undefined) {
       onExpanderClick({ ...task, hideChildren: !task.hideChildren });
     }
-  };
+  }, [onExpanderClick]);
+
   const gridProps: GridProps = {
     columnWidth,
     svgWidth,
