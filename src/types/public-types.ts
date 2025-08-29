@@ -123,6 +123,8 @@ export interface StylingOption {
   arrowIndent?: number;
   todayColor?: string;
   onHoverPathColor?: string;
+  disableDepOnHoverStyleChange?: boolean;
+  disableDepSelectedStyleChange?: boolean;
   TooltipContent?: React.FC<{
     task: Task;
     fontSize: string;

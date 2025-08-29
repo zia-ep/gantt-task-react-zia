@@ -10,6 +10,8 @@ const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
+  const [disableDepOnHover, setDisableDepOnHover] = React.useState(false);
+  const [disableDepOnSelect, setDisableDepOnSelect] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [filteredTasks, setFilteredTasks] = React.useState<Task[]>([]);
   const [searchTerm2, setSearchTerm2] = React.useState("");
@@ -105,6 +107,26 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={disableDepOnHover}
+            onChange={() => setDisableDepOnHover(!disableDepOnHover)}
+          />
+          Disable dependency style change on hover
+        </label>
+      </div>
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={disableDepOnSelect}
+            onChange={() => setDisableDepOnSelect(!disableDepOnSelect)}
+          />
+          Disable dependency style change on select
+        </label>
+      </div>
       <h3>Gantt With Unlimited Height</h3>
       <div>
         <input
@@ -134,6 +156,8 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
         onHoverPathColor={"blue"}
+        disableDepOnHoverStyleChange={disableDepOnHover}
+        disableDepSelectedStyleChange={disableDepOnSelect}
         TaskListTable={CustomTaskListTable}
         barBorderSelectedColor="blue"
         // barBorderColor="#FF0000"
@@ -170,6 +194,8 @@ const App = () => {
         listCellWidth={isChecked ? "155px" : ""}
         columnWidth={columnWidth}
         onHoverPathColor={"blue"}
+        disableDepOnHoverStyleChange={disableDepOnHover}
+        disableDepSelectedStyleChange={disableDepOnSelect}
         TaskListTable={CustomTaskListTable}
         barBorderSelectedColor="blue"
         // barBorderColor="#FF0000"

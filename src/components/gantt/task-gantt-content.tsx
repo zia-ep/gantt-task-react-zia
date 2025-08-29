@@ -32,6 +32,8 @@ export type TaskGanttContentProps = {
   setFailedTask: (value: BarTask | null) => void;
   setSelectedTask: (taskId: string, source: 'list' | 'gantt') => void;
   onHoverPathColor?: string;
+  disableDepOnHoverStyleChange?: boolean;
+  disableDepSelectedStyleChange?: boolean;
   barBorderColor: string;
   barBorderWidth: number;
   barBorderSelectedColor: string;
@@ -62,6 +64,8 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   onClick,
   onDelete,
   onHoverPathColor,
+  disableDepOnHoverStyleChange,
+  disableDepSelectedStyleChange,
   barBorderWidth,
   barBorderSelectedWidth,
 }) => {
@@ -274,9 +278,16 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
       <g className="arrows" fill={arrowColor} stroke={arrowColor}>
         {tasks.map(task => {
           return task.barChildren.map(child => {
-            const isHighlighted = ganttEvent.action === 'mouseenter' && 
+            const isHovered = ganttEvent.action === 'mouseenter' && 
                                   (ganttEvent.changedTask?.id === task.id || 
                                   ganttEvent.changedTask?.id === tasks[child.index].id);
+
+            const isSelected = selectedTask && 
+                              (selectedTask.id === task.id || 
+                              selectedTask.id === tasks[child.index].id);
+
+            const isHighlighted = (!disableDepOnHoverStyleChange && isHovered) || 
+                                  (!disableDepSelectedStyleChange && isSelected);
             return (
               <Arrow
                 key={`Arrow from ${task.id} to ${tasks[child.index].id}`}

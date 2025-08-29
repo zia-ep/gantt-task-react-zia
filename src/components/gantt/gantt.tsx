@@ -72,6 +72,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   onSelect,
   onExpanderClick,
   onHoverPathColor,
+  disableDepOnHoverStyleChange = false,
+  disableDepSelectedStyleChange = false,
   scrollToTaskOnSelect = true,
   ganttRef,
 }) => {
@@ -481,6 +483,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     onClick,
     onDelete,
     onHoverPathColor,
+    disableDepOnHoverStyleChange,
+    disableDepSelectedStyleChange,
     barBorderColor: barBorderColor || barBackgroundColor,
     barBorderWidth,
     barBorderSelectedColor: barBorderSelectedColor || barBackgroundSelectedColor,
