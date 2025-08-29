@@ -10,6 +10,12 @@ const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [filteredTasks, setFilteredTasks] = React.useState<Task[]>([]);
+  const [searchTerm2, setSearchTerm2] = React.useState("");
+  const [filteredTasks2, setFilteredTasks2] = React.useState<Task[]>([]);
+  const ganttRef1 = React.useRef<{ scrollToTask: (taskId: string) => void; }>(null);
+  const ganttRef2 = React.useRef<{ scrollToTask: (taskId: string) => void; }>(null);
   let columnWidth = 65;
   if (view === ViewMode.Year) {
     columnWidth = 350;
@@ -68,6 +74,30 @@ const App = () => {
     console.log("On expander click Id:" + task.id);
   };
 
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchTerm(searchTerm);
+    if (searchTerm) {
+      setFilteredTasks(
+        tasks.filter(t => t.name.toLowerCase().includes(searchTerm))
+      );
+    } else {
+      setFilteredTasks([]);
+    }
+  };
+
+  const handleSearch2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchTerm2(searchTerm);
+    if (searchTerm) {
+      setFilteredTasks2(
+        tasks.filter(t => t.name.toLowerCase().includes(searchTerm))
+      );
+    } else {
+      setFilteredTasks2([]);
+    }
+  };
+
   return (
     <div className="Wrapper">
       <ViewSwitcher
@@ -76,6 +106,21 @@ const App = () => {
         isChecked={isChecked}
       />
       <h3>Gantt With Unlimited Height</h3>
+      <div>
+        <input
+          type="text"
+          placeholder="Search for a task"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <div>
+          {filteredTasks.map(task => (
+            <button key={task.id} onClick={() => ganttRef1.current?.scrollToTask(task.id)}>
+              {task.name}
+            </button>
+          ))}
+        </div>
+      </div>
       <Gantt
         tasks={tasks}
         viewMode={view}
@@ -91,11 +136,27 @@ const App = () => {
         onHoverPathColor={"blue"}
         TaskListTable={CustomTaskListTable}
         barBorderSelectedColor="blue"
-        barBorderColor="#FF0000"
+        // barBorderColor="#FF0000"
         barBorderSelectedWidth={5}
         barBorderWidth={2}
+        ganttRef={ganttRef1}
       />
       <h3>Gantt With Limited Height</h3>
+      <div>
+        <input
+          type="text"
+          placeholder="Search for a task"
+          value={searchTerm2}
+          onChange={handleSearch2}
+        />
+        <div>
+          {filteredTasks2.map(task => (
+            <button key={task.id} onClick={() => ganttRef2.current?.scrollToTask(task.id)}>
+              {task.name}
+            </button>
+          ))}
+        </div>
+      </div>
       <Gantt
         tasks={tasks}
         viewMode={view}
@@ -107,10 +168,15 @@ const App = () => {
         onSelect={handleSelect}
         onExpanderClick={handleExpanderClick}
         listCellWidth={isChecked ? "155px" : ""}
-        ganttHeight={300}
         columnWidth={columnWidth}
+        onHoverPathColor={"blue"}
         TaskListTable={CustomTaskListTable}
-        scrollToTaskOnSelect={false}
+        barBorderSelectedColor="blue"
+        // barBorderColor="#FF0000"
+        barBorderSelectedWidth={5}
+        barBorderWidth={2}
+        ganttRef={ganttRef2}
+        ganttHeight={300}
       />
     </div>
   );
