@@ -44,6 +44,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   barBorderColor,
   barBorderWidth = 1,
   barBorderSelectedColor,
+  barBorderSelectedWidth = 1,
   projectProgressColor = "#7db59a",
   projectProgressSelectedColor = "#59a985",
   projectBackgroundColor = "#fac465",
@@ -148,7 +149,8 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         milestoneBackgroundSelectedColor,
         barBorderColor || barBackgroundColor,
         barBorderWidth,
-        barBorderSelectedColor || barBackgroundSelectedColor
+        barBorderSelectedColor || barBackgroundSelectedColor,
+        barBorderSelectedWidth
       )
     );
   }, [
@@ -176,6 +178,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     barBorderColor,
     barBorderWidth,
     barBorderSelectedColor,
+    barBorderSelectedWidth,
   ]);
 
   useEffect(() => {
@@ -462,6 +465,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     barBorderColor: barBorderColor || barBackgroundColor,
     barBorderWidth,
     barBorderSelectedColor: barBorderSelectedColor || barBackgroundSelectedColor,
+    barBorderSelectedWidth,
   };
 
   const tableProps: TaskListProps = {

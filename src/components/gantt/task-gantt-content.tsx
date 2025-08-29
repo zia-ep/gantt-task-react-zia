@@ -35,6 +35,7 @@ export type TaskGanttContentProps = {
   barBorderColor: string;
   barBorderWidth: number;
   barBorderSelectedColor: string;
+  barBorderSelectedWidth: number;
 } & EventOption;
 
 export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
@@ -62,6 +63,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
   onDelete,
   onHoverPathColor,
   barBorderWidth,
+  barBorderSelectedWidth,
 }) => {
   const point = svg?.current?.createSVGPoint();
   const [xStep, setXStep] = useState(0);
@@ -308,6 +310,7 @@ export const TaskGanttContent: React.FC<TaskGanttContentProps> = ({
               isSelected={!!selectedTask && task.id === selectedTask.id}
               rtl={rtl}
               barBorderWidth={barBorderWidth}
+              barBorderSelectedWidth={barBorderSelectedWidth}
             />
           );
         })}

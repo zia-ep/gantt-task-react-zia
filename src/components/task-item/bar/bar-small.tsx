@@ -11,6 +11,8 @@ export const BarSmall: React.FC<TaskItemProps> = ({
   isDateChangeable,
   onEventStart,
   isSelected,
+  barBorderWidth,
+  barBorderSelectedWidth,
 }) => {
   const progressPoint = getProgressPoint(
     task.progressWidth + task.x1,
@@ -29,6 +31,8 @@ export const BarSmall: React.FC<TaskItemProps> = ({
         barCornerRadius={task.barCornerRadius}
         styles={task.styles}
         isSelected={isSelected}
+        barBorderWidth={barBorderWidth}
+        barBorderSelectedWidth={barBorderSelectedWidth}
         onMouseDown={e => {
           isDateChangeable && onEventStart("move", task, e);
         }}

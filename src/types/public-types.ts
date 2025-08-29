@@ -25,6 +25,10 @@ export interface Task {
     backgroundSelectedColor?: string;
     progressColor?: string;
     progressSelectedColor?: string;
+    borderColor?: string;
+    borderWidth?: number;
+    borderSelectedColor?: string;
+    borderSelectedWidth?: number;
   };
   isDisabled?: boolean;
   project?: string;
@@ -108,6 +112,7 @@ export interface StylingOption {
   barBorderColor?: string;
   barBorderWidth?: number;
   barBorderSelectedColor?: string;
+  barBorderSelectedWidth?: number;
   projectProgressColor?: string;
   projectProgressSelectedColor?: string;
   projectBackgroundColor?: string;

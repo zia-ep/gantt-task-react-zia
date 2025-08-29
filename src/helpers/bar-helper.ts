@@ -23,7 +23,8 @@ export const convertToBarTasks = (
   milestoneBackgroundSelectedColor: string,
   barBorderColor: string,
   barBorderWidth: number,
-  barBorderSelectedColor: string
+  barBorderSelectedColor: string,
+  barBorderSelectedWidth: number
 ) => {
   let barTasks = tasks.map((t, i) => {
     return convertToBarTask(
@@ -48,7 +49,8 @@ export const convertToBarTasks = (
       milestoneBackgroundSelectedColor,
       barBorderColor,
       barBorderWidth,
-      barBorderSelectedColor
+      barBorderSelectedColor,
+      barBorderSelectedWidth
     );
   });
 
@@ -89,7 +91,8 @@ const convertToBarTask = (
   milestoneBackgroundSelectedColor: string,
   barBorderColor: string,
   barBorderWidth: number,
-  barBorderSelectedColor: string
+  barBorderSelectedColor: string,
+  barBorderSelectedWidth: number
 ): BarTask => {
   let barTask: BarTask;
   switch (task.type) {
@@ -124,7 +127,8 @@ const convertToBarTask = (
         projectBackgroundSelectedColor,
         barBorderColor,
         barBorderWidth,
-        barBorderSelectedColor
+        barBorderSelectedColor,
+        barBorderSelectedWidth
       );
       break;
     default:
@@ -144,7 +148,8 @@ const convertToBarTask = (
         barBackgroundSelectedColor,
         barBorderColor,
         barBorderWidth,
-        barBorderSelectedColor
+        barBorderSelectedColor,
+        barBorderSelectedWidth
       );
       break;
   }
@@ -167,7 +172,8 @@ const convertToBar = (
   barBackgroundSelectedColor: string,
   barBorderColor: string,
   barBorderWidth: number,
-  barBorderSelectedColor: string
+  barBorderSelectedColor: string,
+  barBorderSelectedWidth: number
 ): BarTask => {
   let x1: number;
   let x2: number;
@@ -200,6 +206,8 @@ const convertToBar = (
     progressSelectedColor: barProgressSelectedColor,
     borderColor: barBorderColor,
     borderSelectedColor: barBorderSelectedColor,
+    borderWidth: barBorderWidth,
+    borderSelectedWidth: barBorderSelectedWidth,
     ...task.styles,
   };
   return {
@@ -217,7 +225,7 @@ const convertToBar = (
     height: taskHeight,
     barChildren: [],
     styles,
-    barBorderWidth,
+    barBorderWidth: styles.borderWidth,
   };
 };
 
@@ -247,6 +255,8 @@ const convertToMilestone = (
     progressSelectedColor: "",
     borderColor: "",
     borderSelectedColor: "",
+    borderWidth: 0,
+    borderSelectedWidth: 0,
     ...task.styles,
   };
   return {
