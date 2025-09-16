@@ -10,6 +10,8 @@ const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
   const [tasks, setTasks] = React.useState<Task[]>(initTasks());
   const [isChecked, setIsChecked] = React.useState(true);
+  const [isControlled, setIsControlled] = React.useState(false);
+  const [selectedTaskId, setSelectedTaskId] = React.useState<string>("");
   const [disableDepOnHover, setDisableDepOnHover] = React.useState(false);
   const [disableDepOnSelect, setDisableDepOnSelect] = React.useState(false);
   const [searchTerm, setSearchTerm] = React.useState("");
@@ -69,6 +71,13 @@ const App = () => {
 
   const handleSelect = (task: Task, isSelected: boolean) => {
     console.log(task.name + " has " + (isSelected ? "selected" : "unselected"));
+    if (isControlled) {
+      if (isSelected) {
+        setSelectedTaskId(task.id);
+      } else {
+        setSelectedTaskId("");
+      }
+    }
   };
 
   const handleExpanderClick = (task: Task) => {
@@ -107,6 +116,28 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={isControlled}
+            onChange={() => setIsControlled(!isControlled)}
+          />
+          Controlled task selection
+        </label>
+      </div>
+      {isControlled &&
+        <div>
+          <p>Select a task outside the gantt chart:</p>
+          <div>
+            {tasks.map(task => (
+              <button key={task.id} onClick={() => setSelectedTaskId(task.id)}>
+                {task.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      }
       <div>
         <label>
           <input
@@ -164,6 +195,7 @@ const App = () => {
         barBorderSelectedWidth={5}
         barBorderWidth={2}
         ganttRef={ganttRef1}
+        selectedTaskId={isControlled ? selectedTaskId : undefined}
       />
       <h3>Gantt With Limited Height</h3>
       <div>
@@ -203,6 +235,7 @@ const App = () => {
         barBorderWidth={2}
         ganttRef={ganttRef2}
         ganttHeight={300}
+        selectedTaskId={isControlled ? selectedTaskId : undefined}
       />
     </div>
   );

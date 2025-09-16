@@ -76,6 +76,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   disableDepSelectedStyleChange = false,
   scrollToTaskOnSelect = true,
   ganttRef,
+  selectedTaskId,
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
@@ -109,10 +110,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   const [scrollX, setScrollX] = useState(-1);
   const [ignoreScrollEvent, setIgnoreScrollEvent] = useState(false);
 
+  const isControlled = selectedTaskId !== undefined;
+
+  const _selectedTask = isControlled ? barTasks.find(t => t.id === selectedTaskId) : selectedTask;
+
   const _handleSelectedTask = useCallback((taskId: string) => {
     const newSelectedTask = barTasks.find(t => t.id === taskId);
     const oldSelectedTask = barTasks.find(
-      t => !!selectedTask && t.id === selectedTask.id
+      t => !!_selectedTask && t.id === _selectedTask.id
     );
     if (onSelect) {
       if (oldSelectedTask) {
@@ -122,12 +127,14 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         onSelect(newSelectedTask, true);
       }
     }
-    setSelectedTask(newSelectedTask);
-  }, [barTasks, onSelect, selectedTask]);
+    if (!isControlled) {
+      setSelectedTask(newSelectedTask);
+    }
+  }, [barTasks, onSelect, _selectedTask, isControlled]);
 
   const handleSelect = useCallback((taskId: string, source: 'list' | 'gantt' | 'search' = 'gantt') => {
     _handleSelectedTask(taskId);
-    if (scrollToTaskOnSelect && (source === 'list' || source === 'search')) {
+    if (!isControlled && scrollToTaskOnSelect && (source === 'list' || source === 'search')) {
       const newSelectedTask = barTasks.find(t => t.id === taskId);
       if (newSelectedTask) {
         const newScrollX = newSelectedTask.x1 - svgContainerWidth / 2;
@@ -138,7 +145,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         }
       }
     }
-  }, [_handleSelectedTask, scrollToTaskOnSelect, barTasks, svgContainerWidth]);
+  }, [_handleSelectedTask, isControlled, scrollToTaskOnSelect, barTasks, svgContainerWidth]);
 
   useImperativeHandle(ganttRef, () => ({
     scrollToTask: (taskId: string) => {
@@ -155,6 +162,20 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
       }
     }
   }));
+
+  useEffect(() => {
+    if (isControlled && scrollToTaskOnSelect && _selectedTask) {
+      const newScrollX = _selectedTask.x1 - svgContainerWidth / 2;
+      if (newScrollX < 0) {
+        setScrollX(0);
+      } else {
+        setScrollX(newScrollX);
+      }
+      if (ganttHeight) {
+        setScrollY(_selectedTask.index * rowHeight);
+      }
+    }
+  }, [isControlled, scrollToTaskOnSelect, _selectedTask, svgContainerWidth, ganttHeight, rowHeight]);
 
   // task change events
   useEffect(() => {
@@ -463,7 +484,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     tasks: barTasks,
     dates: dateSetup.dates,
     ganttEvent,
-    selectedTask,
+    selectedTask: _selectedTask,
     rowHeight,
     taskHeight,
     columnWidth,
@@ -502,7 +523,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
     scrollY,
     ganttHeight,
     horizontalContainerClass: styles.horizontalContainer,
-    selectedTask,
+    selectedTask: _selectedTask,
     taskListRef,
     setSelectedTask: handleSelect,
     onExpanderClick: handleExpanderClick,
