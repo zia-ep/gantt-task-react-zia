@@ -75,6 +75,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   disableDepOnHoverStyleChange = false,
   disableDepSelectedStyleChange = false,
   scrollToTaskOnSelect = true,
+  scrollOffset = 0,
   ganttRef,
   selectedTaskId,
 }) => {
@@ -148,14 +149,16 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
   }, [_handleSelectedTask, isControlled, scrollToTaskOnSelect, barTasks, svgContainerWidth]);
 
   useImperativeHandle(ganttRef, () => ({
-    scrollToTask: (taskId: string) => {
+    scrollToTask: (taskId: string, offset?: number) => {
       const barTask = barTasks.find(t => t.id === taskId);
       if (barTask) {
+        const finalOffset = offset !== undefined ? offset : scrollOffset;
         if (ganttHeight) {
-          setScrollY(barTask.index * rowHeight);
+          setScrollY(barTask.index * rowHeight - finalOffset);
         } else {
           if (wrapperRef.current) {
-            window.scrollTo(0, wrapperRef.current.offsetTop + barTask.index * rowHeight);
+            console.log(finalOffset, "Final Offset");
+            window.scrollTo(0, wrapperRef.current.offsetTop + barTask.index * rowHeight - finalOffset);
           }
         }
         handleSelect(barTask.id, 'search');
@@ -172,10 +175,10 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
         setScrollX(newScrollX);
       }
       if (ganttHeight) {
-        setScrollY(_selectedTask.index * rowHeight);
+        setScrollY(_selectedTask.index * rowHeight - scrollOffset);
       }
     }
-  }, [isControlled, scrollToTaskOnSelect, _selectedTask, svgContainerWidth, ganttHeight, rowHeight]);
+  }, [isControlled, scrollToTaskOnSelect, _selectedTask, svgContainerWidth, ganttHeight, rowHeight, scrollOffset]);
 
   // task change events
   useEffect(() => {
