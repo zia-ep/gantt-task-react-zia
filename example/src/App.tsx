@@ -127,7 +127,7 @@ const App = () => {
         </label>
       </div>
       {isControlled &&
-        <div>
+        <div style={{ display: "flex", position:"sticky", top: 0, backgroundColor: "white", padding: "10px", width: "100%", zIndex: 1  }}>
           <p>Select a task outside the gantt chart:</p>
           <div>
             {tasks.map(task => (

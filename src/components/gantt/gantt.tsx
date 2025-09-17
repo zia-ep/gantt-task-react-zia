@@ -157,7 +157,7 @@ export const Gantt: React.FunctionComponent<GanttProps> = ({
           setScrollY(barTask.index * rowHeight - finalOffset);
         } else {
           if (wrapperRef.current) {
-            console.log(finalOffset, "Final Offset");
+            // console.log(finalOffset, "Final Offset");
             window.scrollTo(0, wrapperRef.current.offsetTop + barTask.index * rowHeight - finalOffset);
           }
         }
